@@ -1,9 +1,8 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-
-import {configuration} from './config/configuration';
+import { configuration } from './config/configuration';
 import { DatabaseModule } from './shared/database/database.module';
+import { AuthModule } from './modules/auth/auth.module'; 
 
 @Module({
   imports: [
@@ -12,7 +11,7 @@ import { DatabaseModule } from './shared/database/database.module';
       load: [configuration],
     }),
     DatabaseModule,
-    // Module lainnya...
+    AuthModule, 
   ],
 })
 export class AppModule {}
