@@ -1,4 +1,5 @@
 import { RegisterDto } from './register.dto';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class RegisterSiswaDto extends RegisterDto {
   @IsString()

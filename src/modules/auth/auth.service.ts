@@ -16,6 +16,7 @@ import { UserRole } from 'src/core/entities/user-role.entity';
 import { Class } from 'src/core/entities/class.entity';
 
 import { RegisterDto } from './dto/register.dto';
+import { RegisterSiswaDto } from './dto/register-siswa.dto';
 
 @Injectable()
 export class AuthService {
@@ -92,13 +93,13 @@ export class AuthService {
   }
   
 
-  async registerSiswa(dto: RegisterDto): Promise<User> {
+  async registerSiswa(dto: RegisterSiswaDto): Promise<User> {
     return this.dataSource.transaction(async (manager) => {
       await this.validateUsernameEmail(manager, dto.username, dto.email);
-
+  
       const kelas = await manager.findOne(Class, { where: { id: dto.classId } });
       if (!kelas) throw new BadRequestException('Kelas tidak ditemukan');
-
+  
       const hashedPassword = await this.hashPassword(dto.password);
       const user = manager.create(User, {
         username: dto.username,
@@ -107,7 +108,7 @@ export class AuthService {
         fullName: dto.fullName,
       });
       await manager.save(user);
-
+  
       const student = manager.create(Student, {
         nis: dto.nis,
         nisn: dto.nisn,
@@ -115,9 +116,9 @@ export class AuthService {
         user,
       });
       await manager.save(student);
-
+  
       await this.assignRole(manager, user, 'Siswa');
-
+  
       return user;
     });
   }
