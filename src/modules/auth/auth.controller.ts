@@ -1,10 +1,10 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { Public } from 'src/common/decorators/public.decorator';
-
+import { RegisterDto } from './dto/register.dto';
+import { RegisterSiswaDto } from './dto/register-siswa.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -17,7 +17,7 @@ async refresh(@Body() dto: RefreshTokenDto) {
 
 @Public()
 @Post('register-siswa')
-async registerSiswa(@Body() dto: RegisterDto) {
+async registerSiswa(@Body() dto: RegisterSiswaDto) {
   const user = await this.authService.registerSiswa(dto);
   return {
     userId: user.id,
